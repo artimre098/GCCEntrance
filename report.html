@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Placement Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 1000px;
+      margin: auto;
+      background-color: #f6fff8;
+      color: #14532d;
+    }
+    h2 {
+      color: #065f46;
+      border-bottom: 2px solid #22c55e;
+      padding-bottom: 5px;
+    }
+    label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    select {
+      margin: 0 15px 15px 0;
+      padding: 8px;
+      border: 2px solid #22c55e;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #b9e4c9;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #bbf7d0;
+      color: #065f46;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Placement Exam Report</h2>
+
+<div>
+  <label for="strandFilter">Strand:</label>
+  <select id="strandFilter">
+    <option value="">All</option>
+  </select>
+ <br />
+  <label for="firstChoiceFilter">1st Choice:</label>
+  <select id="firstChoiceFilter">
+    <option value="">All</option>
+  </select>
+
+  <label for="secondChoiceFilter">2nd Choice:</label>
+  <select id="secondChoiceFilter">
+    <option value="">All</option>
+  </select>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fullname</th>
+      <th>Strand</th>
+      <th>1st Choice</th>
+      <th>2nd Choice</th>
+      <th>Total Score</th>
+    </tr>
+  </thead>
+  <tbody id="reportBody"></tbody>
+</table>
+
+<script>
+  let students = [];
+
+  // Populate table with optional filters
+  function updateTable() {
+    const strandVal = document.getElementById("strandFilter").value;
+    const firstVal = document.getElementById("firstChoiceFilter").value;
+    const secondVal = document.getElementById("secondChoiceFilter").value;
+
+    const filtered = students.filter(s =>
+      (strandVal === "" || s.Strand === strandVal) &&
+      (firstVal === "" || s.FirstChoice === firstVal) &&
+      (secondVal === "" || s.SecondChoice === secondVal)
+    );
+
+    const tbody = document.getElementById("reportBody");
+    tbody.innerHTML = "";
+    filtered.forEach(s => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${s.Fullname}</td>
+          <td>${s.Strand}</td>
+          <td>${s.FirstChoice}</td>
+          <td>${s.SecondChoice}</td>
+          <td>${s.TOTAL}</td>
+        </tr>
+      `;
+    });
+  }
+
+  // Load data and build filters
+  fetch("results.json")
+    .then(res => res.json())
+    .then(data => {
+      students = data;
+
+      const strands = [...new Set(students.map(s => s.Strand))].sort();
+      const firsts = [...new Set(students.map(s => s.FirstChoice))].sort();
+      const seconds = [...new Set(students.map(s => s.SecondChoice))].sort();
+
+      const addOptions = (selectId, options) => {
+        const select = document.getElementById(selectId);
+        options.forEach(opt => {
+          const o = document.createElement("option");
+          o.value = o.textContent = opt;
+          select.appendChild(o);
+        });
+      };
+
+      addOptions("strandFilter", strands);
+      addOptions("firstChoiceFilter", firsts);
+      addOptions("secondChoiceFilter", seconds);
+
+      // Hook change events
+      document.getElementById("strandFilter").onchange = updateTable;
+      document.getElementById("firstChoiceFilter").onchange = updateTable;
+      document.getElementById("secondChoiceFilter").onchange = updateTable;
+
+      updateTable(); // initial load
+    });
+</script>
+
+</body>
+</html>
