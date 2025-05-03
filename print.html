@@ -18,13 +18,13 @@
     }
     .header img {
       max-height: 100px;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
-    h1 {
+    h3 {
       margin: 0;
       color: #065f46;
     }
-    h2 {
+    h4 {
       margin: 5px 0 0;
       color: #16a34a;
     }
@@ -77,8 +77,8 @@
 <body>
   <div class="header">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6y9qFtln20uAB45EqPe71MM2Trl1yGwbVYw&s" alt="GCC Logo">
-    <h1>GINGOOG CITY COLLEGES, INC.</h1>
-    <h2>Placement Exam Result</h2>
+    <h3>GINGOOG CITY COLLEGES, INC.</h3>
+    <h4>Placement Exam Result</h4>
   </div>
 
   <div id="info"></div>
@@ -110,7 +110,7 @@
     }
 
     document.getElementById("info").innerHTML = `
-      <h3><p><strong>Name:</strong> ${student.Fullname}</p></h3>
+      <p><strong>Name:</strong> <u>${student.Fullname}</u></p>
       <p><strong>Address:</strong> ${student.Address}</p>
       <p><strong>Duration:</strong> ${student.Duration}</p>
       <p><strong>Last School:</strong> ${student.LastSchool}</p>
