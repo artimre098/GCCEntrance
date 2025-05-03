@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Print Student Result</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #ffffff;
+      color: #14532d;
+    }
+    h1 {
+      text-align: center;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+    h2 {
+      text-align: center;
+      color: #16a34a;
+      margin-top: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background-color: white;
+    }
+    td, th {
+      border: 1px solid #b9e4c9;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #bbf7d0;
+      color: #065f46;
+    }
+    #info p {
+      margin: 5px 0;
+    }
+    strong {
+      display: inline-block;
+      width: 140px;
+    }
+    @media print {
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>GINGOOG CITY COLLEGES, INC.</h1>
+  <h2>Placement Exam Result</h2>
+
+  <div id="info"></div>
+
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Score</th></tr>
+    </thead>
+    <tbody id="scoreTable"></tbody>
+    <tfoot><tr><th>Total</th><th id="totalScore"></th></tr></tfoot>
+  </table>
+
+  <script>
+    const student = JSON.parse(localStorage.getItem("studentToPrint"));
+    if (!student) {
+      document.body.innerHTML = "<p>No student data found. Please go back and select a student.</p>";
+      throw new Error("No student data.");
+    }
+
+    document.getElementById("info").innerHTML = `
+      <p><strong>Name:</strong> ${student.Fullname}</p>
+      <p><strong>Address:</strong> ${student.Address}</p>
+      <p><strong>Duration:</strong> ${student.Duration}</p>
+      <p><strong>Last School:</strong> ${student.LastSchool}</p>
+      <p><strong>Strand:</strong> ${student.Strand}</p>
+      <p><strong>1st Choice:</strong> ${student.FirstChoice}</p>
+      <p><strong>2nd Choice:</strong> ${student.SecondChoice}</p>
+    `;
+
+    const categories = ["VOCABULARY", "CORRECT USAGE", "PROBLEM SOLVING", "IDENTIFYING ERRORS", "READING COMPREHENSION", "LOGICAL ORGANIZATION", "NUMERICAL ABILITY"];
+    const tbody = document.getElementById('scoreTable');
+    categories.forEach(cat => {
+      tbody.innerHTML += `<tr><td>${cat}</td><td>${student[cat]}</td></tr>`;
+    });
+
+    document.getElementById("totalScore").textContent = student.TOTAL;
+
+    window.onload = () => window.print();
+  </script>
+</body>
+</html>

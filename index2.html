@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Placement Exam Result Viewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input[type="file"], input[type="text"] { margin-bottom: 10px; padding: 8px; width: 100%; max-width: 400px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #f2f2f2; }
+    #results { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Placement Exam Result Viewer</h2>
+
+<input type="file" id="upload" accept=".csv">
+<input type="text" id="search" placeholder="Search by full name..." disabled>
+
+<div id="results">
+  <h3 id="studentName"></h3>
+  <p id="studentMeta"></p>
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Score</th></tr>
+    </thead>
+    <tbody id="scoreBody"></tbody>
+    <tfoot><tr><th>Total</th><th id="totalScore"></th></tr></tfoot>
+  </table>
+</div>
+
+<script>
+  let studentData = [];
+
+  document.getElementById('upload').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const csvText = event.target.result;
+
+      // ✅ Robust CSV parsing
+      const rows = Papa.parse(csvText, { skipEmptyLines: true }).data;
+
+      const header = rows[0];
+      const dataRows = rows.slice(1);
+
+      studentData = dataRows.map(row => {
+        const get = idx => (row[idx] || "").trim();
+
+        const fullname = `${get(8)}, ${get(11)} ${get(14)}`;
+        const address = `${get(20)} ${get(23)}`;
+        const lastSchool = get(29);
+        const strand = `${get(32)} / ${get(35)}`;
+        const firstChoice = get(38);
+        const secondChoice = get(41);
+
+        const start = new Date(get(1));
+        const end = new Date(get(2));
+        const durationMs = end - start;
+        const duration = (isNaN(durationMs)) ? "N/A" : `${Math.floor(durationMs / 3600000)}h ${Math.floor((durationMs % 3600000) / 60000)}m`;
+
+        const pointsStart = 45; // First points column
+        const scoreFrom = (start, count) => {
+        let sum = 0;
+        for (let i = 0; i < count; i++) {
+            const idx = start + i * 3;
+            sum += get(idx) === "1" ? 1 : 0;
+        }
+        return sum;
+        };
+
+        const scores = {
+  "VOCABULARY": scoreFrom(pointsStart + 0, 10),        // 10 items
+  "CORRECT USAGE": scoreFrom(pointsStart + 30, 10),     // next 10 (10 * 3)
+  "PROBLEM SOLVING": scoreFrom(pointsStart + 60, 15),   // next 15 (15 * 3)
+  "IDENTIFYING ERRORS": scoreFrom(pointsStart + 105, 10),
+  "READING COMPREHENSION": scoreFrom(pointsStart + 135, 10),
+  "LOGICAL ORGANIZATION": scoreFrom(pointsStart + 165, 10),
+  "NUMERICAL ABILITY": scoreFrom(pointsStart + 195, 20)
+};
+
+        const total = Object.values(scores).reduce((a, b) => a + b, 0);
+
+        return {
+          Fullname: fullname,
+          Duration: duration,
+          Address: address,
+          LastSchool: lastSchool,
+          Strand: strand,
+          FirstChoice: firstChoice,
+          SecondChoice: secondChoice,
+          ...scores,
+          TOTAL: total
+        };
+      });
+
+      document.getElementById('search').disabled = false;
+      alert("✅ CSV loaded! You can now search for students.");
+    };
+
+    reader.readAsText(file);
+  });
+
+  document.getElementById('search').addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    const match = studentData.find(s => s.Fullname.toLowerCase().includes(query));
+    if (match) displayStudent(match);
+  });
+
+  function displayStudent(student) {
+    document.getElementById('studentName').textContent = student.Fullname;
+    document.getElementById('studentMeta').innerHTML = `
+      <strong>Duration:</strong> ${student.Duration}<br>
+      <strong>Address:</strong> ${student.Address}<br>
+      <strong>Last School:</strong> ${student.LastSchool}<br>
+      <strong>Strand:</strong> ${student.Strand}<br>
+      <strong>1st Choice:</strong> ${student.FirstChoice}<br>
+      <strong>2nd Choice:</strong> ${student.SecondChoice}
+    `;
+
+    const categories = ["VOCABULARY", "CORRECT USAGE", "PROBLEM SOLVING", "IDENTIFYING ERRORS", "READING COMPREHENSION", "LOGICAL ORGANIZATION", "NUMERICAL ABILITY"];
+    const tbody = document.getElementById('scoreBody');
+    tbody.innerHTML = "";
+    categories.forEach(cat => {
+      tbody.innerHTML += `<tr><td>${cat}</td><td>${student[cat]}</td></tr>`;
+    });
+
+    document.getElementById('totalScore').textContent = student.TOTAL;
+    document.getElementById('results').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

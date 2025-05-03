@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exam Results Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+      background-color: #f6fff8;
+      color: #14532d;
+    }
+    h2 {
+      color: #14532d;
+      border-bottom: 2px solid #22c55e;
+      padding-bottom: 5px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 20px;
+      border: 2px solid #22c55e;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #b9e4c9;
+      text-align: left;
+    }
+    th {
+      background-color: #bbf7d0;
+      color: #065f46;
+    }
+    #results {
+      margin-top: 30px;
+      padding: 20px;
+      background: #ecfdf5;
+      border: 2px solid #22c55e;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #16a34a;
+    }
+    strong {
+      display: inline-block;
+      width: 130px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Placement Exam Result Viewer</h2>
+<input type="text" id="search" placeholder="Search by full name...">
+
+<div id="results" style="display: none;">
+  <h3 id="studentName"></h3>
+  <p id="studentMeta"></p>
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Score</th></tr>
+    </thead>
+    <tbody id="scoreBody"></tbody>
+    <tfoot><tr><th>Total</th><th id="totalScore"></th></tr></tfoot>
+  </table>
+  <button onclick="window.open('print.html', '_blank')">Print</button>
+</div>
+
+<script>
+  let studentData = [];
+  let selectedStudent = null;
+
+  fetch("results.json")
+    .then(res => res.json())
+    .then(data => {
+      studentData = data;
+      document.getElementById('search').disabled = false;
+    });
+
+  document.getElementById('search').addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    const match = studentData.find(s => s.Fullname.toLowerCase().includes(query));
+    if (match) displayStudent(match);
+  });
+
+  function displayStudent(student) {
+    selectedStudent = student;
+    localStorage.setItem("studentToPrint", JSON.stringify(student));
+
+    document.getElementById('studentName').textContent = student.Fullname;
+    document.getElementById('studentMeta').innerHTML = `
+      <p><strong>Duration:</strong> ${student.Duration}</p>
+      <p><strong>Address:</strong> ${student.Address}</p>
+      <p><strong>Last School:</strong> ${student.LastSchool}</p>
+      <p><strong>Strand:</strong> ${student.Strand}</p>
+      <p><strong>1st Choice:</strong> ${student.FirstChoice}</p>
+      <p><strong>2nd Choice:</strong> ${student.SecondChoice}</p>
+    `;
+
+    const categories = ["VOCABULARY", "CORRECT USAGE", "PROBLEM SOLVING", "IDENTIFYING ERRORS", "READING COMPREHENSION", "LOGICAL ORGANIZATION", "NUMERICAL ABILITY"];
+    const tbody = document.getElementById('scoreBody');
+    tbody.innerHTML = "";
+    categories.forEach(cat => {
+      tbody.innerHTML += `<tr><td>${cat}</td><td>${student[cat]}</td></tr>`;
+    });
+
+    document.getElementById('totalScore').textContent = student.TOTAL;
+    document.getElementById('results').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload CSV & Generate JSON</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h2>Upload CSV to Generate JSON</h2>
+  <input type="file" id="csvFile" accept=".csv">
+  <pre id="jsonOutput" style="white-space: pre-wrap; background: #f8f8f8; padding: 1em;"></pre>
+  <button id="downloadBtn" disabled>Download JSON</button>
+
+  <script>
+    document.getElementById("csvFile").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const csvText = event.target.result;
+        const rows = Papa.parse(csvText, { skipEmptyLines: true }).data;
+
+        const studentData = [];
+        const header = rows[0];
+        const dataRows = rows.slice(1);
+
+        dataRows.forEach(row => {
+          const get = idx => (row[idx] || "").trim();
+
+          const start = new Date(get(1));
+          const end = new Date(get(2));
+          const durationMs = end - start;
+          const duration = (isNaN(durationMs)) ? "N/A" : `${Math.floor(durationMs / 3600000)}h ${Math.floor((durationMs % 3600000) / 60000)}m`;
+
+          const pointsStart = 45;
+          const scoreFrom = (start, count) => {
+            let sum = 0;
+            for (let i = 0; i < count; i++) {
+              const idx = start + i * 3;
+              sum += get(idx) === "1" ? 1 : 0;
+            }
+            return sum;
+          };
+
+          const scores = {
+            "VOCABULARY": scoreFrom(pointsStart + 0, 10),
+            "CORRECT USAGE": scoreFrom(pointsStart + 30, 10),
+            "PROBLEM SOLVING": scoreFrom(pointsStart + 60, 15),
+            "IDENTIFYING ERRORS": scoreFrom(pointsStart + 105, 10),
+            "READING COMPREHENSION": scoreFrom(pointsStart + 135, 10),
+            "LOGICAL ORGANIZATION": scoreFrom(pointsStart + 165, 10),
+            "NUMERICAL ABILITY": scoreFrom(pointsStart + 195, 20)
+          };
+
+          const total = Object.values(scores).reduce((a, b) => a + b, 0);
+
+          studentData.push({
+            Fullname: `${get(8)} ${get(11)} ${get(14)}`,
+            Duration: duration,
+            Address: `${get(20)} ${get(23)}`,
+            LastSchool: get(29),
+            Strand: `${get(32)} / ${get(35)}`,
+            FirstChoice: get(38),
+            SecondChoice: get(41),
+            ...scores,
+            TOTAL: total
+          });
+        });
+
+        const jsonStr = JSON.stringify(studentData, null, 2);
+        document.getElementById("jsonOutput").textContent = jsonStr;
+        document.getElementById("downloadBtn").disabled = false;
+
+        document.getElementById("downloadBtn").onclick = () => {
+          const blob = new Blob([jsonStr], { type: "application/json" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "results.json";
+          link.click();
+        };
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
