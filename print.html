@@ -12,15 +12,21 @@
       background-color: #ffffff;
       color: #14532d;
     }
-    h1 {
+    .header {
       text-align: center;
+      margin-bottom: 20px;
+    }
+    .header img {
+      max-height: 100px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 0;
       color: #065f46;
-      margin-bottom: 5px;
     }
     h2 {
-      text-align: center;
+      margin: 5px 0 0;
       color: #16a34a;
-      margin-top: 0;
     }
     table {
       width: 100%;
@@ -44,14 +50,36 @@
       display: inline-block;
       width: 140px;
     }
+    .signatures {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .sign-box {
+      width: 45%;
+      text-align: center;
+    }
+    .sign-box .line {
+      margin-top: 60px;
+      border-top: 1px solid #333;
+      width: 100%;
+    }
+    .sign-box label {
+      display: block;
+      margin-top: 5px;
+      font-weight: bold;
+    }
     @media print {
       body { padding: 0; }
     }
   </style>
 </head>
 <body>
-  <h1>GINGOOG CITY COLLEGES, INC.</h1>
-  <h2>Placement Exam Result</h2>
+  <div class="header">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6y9qFtln20uAB45EqPe71MM2Trl1yGwbVYw&s" alt="GCC Logo">
+    <h1>GINGOOG CITY COLLEGES, INC.</h1>
+    <h2>Placement Exam Result</h2>
+  </div>
 
   <div id="info"></div>
 
@@ -63,6 +91,17 @@
     <tfoot><tr><th>Total</th><th id="totalScore"></th></tr></tfoot>
   </table>
 
+  <div class="signatures">
+    <div class="sign-box">
+      <div class="line"></div>
+      <label>Exam Incharge</label>
+    </div>
+    <div class="sign-box">
+      <div class="line"></div>
+      <label>Program Head</label>
+    </div>
+  </div>
+
   <script>
     const student = JSON.parse(localStorage.getItem("studentToPrint"));
     if (!student) {
@@ -71,7 +110,7 @@
     }
 
     document.getElementById("info").innerHTML = `
-      <p><strong>Name:</strong> ${student.Fullname}</p>
+      <h3><p><strong>Name:</strong> ${student.Fullname}</p></h3>
       <p><strong>Address:</strong> ${student.Address}</p>
       <p><strong>Duration:</strong> ${student.Duration}</p>
       <p><strong>Last School:</strong> ${student.LastSchool}</p>
