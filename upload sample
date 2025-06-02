@@ -1,0 +1,11 @@
+const scores = {
+            "VOCABULARY": scoreFrom(pointsStart + 0, 10), //45 - 72
+            "CORRECT USAGE": scoreFrom(pointsStart + 30, 10), // 75 - 102
+            "PROBLEM SOLVING": scoreFrom(pointsStart + 60, 15), // 105 -  147
+            "IDENTIFYING ERRORS": scoreFrom(pointsStart + 105, 2), // 150 - 156
+            "IDENTIFYING ERRORS 2": scoreFrom(pointsStart + 115, 6), // 160 - 178
+            "READING COMPREHENSION": scoreFrom(pointsStart + 135, 7), // 180 - 201
+            "READING COMPREHENSION 2": scoreFrom(pointsStart + 160, 1), // 205 - 208
+            "LOGICAL ORGANIZATION": scoreFrom(pointsStart + 166, 10), // 211 - 238
+            "NUMERICAL ABILITY": scoreFrom(pointsStart + 196, 20) // 239 - 298
+          };
