@@ -8634,5 +8634,39 @@
     "LOGICAL ORGANIZATION": 3,
     "NUMERICAL ABILITY": 1,
     "TOTAL": 15
+  },
+  {
+    "Fullname": "Venus N\\A Tirariray",
+    "Duration": "0h 44m",
+    "Address": "kalipay, Gingoog City Purok 1 Gingoog City",
+    "LastSchool": "Lumbai NHS",
+    "Strand": "General Academic Strand (GAS) / N\\A",
+    "FirstChoice": "BS Criminology (BSCRIM)",
+    "SecondChoice": "BS Criminology (BSCRIM)",
+    "VOCABULARY": 4,
+    "CORRECT USAGE": 0,
+    "PROBLEM SOLVING": 1,
+    "IDENTIFYING ERRORS": 4,
+    "READING COMPREHENSION": 1,
+    "LOGICAL ORGANIZATION": 2,
+    "NUMERICAL ABILITY": 4,
+    "TOTAL": 16
+  },
+  {
+    "Fullname": "BENS JOSEPH S MUCHA SALVANA MUCHA",
+    "Duration": "0h 35m",
+    "Address": "LAVERDAD P3 TALISAYAN MIS.OR talisayan mis.or",
+    "LastSchool": "November 9",
+    "Strand": "Technical-Vocational-Livelihood (TVL) / EIM",
+    "FirstChoice": "BS Information Technology (BSIT)",
+    "SecondChoice": "BS Business Administration (BSBA)",
+    "VOCABULARY": 2,
+    "CORRECT USAGE": 3,
+    "PROBLEM SOLVING": 1,
+    "IDENTIFYING ERRORS": 5,
+    "READING COMPREHENSION": 4,
+    "LOGICAL ORGANIZATION": 2,
+    "NUMERICAL ABILITY": 6,
+    "TOTAL": 23
   }
 ]
