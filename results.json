@@ -9824,5 +9824,39 @@
     "LOGICAL ORGANIZATION": 1,
     "NUMERICAL ABILITY": 6,
     "TOTAL": 21
+  },
+  {
+    "Fullname": "LODY MAE ASMA ABAO",
+    "Duration": "1h 7m",
+    "Address": "MAGALLANES BRGY 24 GINGOOG CITY",
+    "LastSchool": "BANABA WEST INTEGRATED SCHOOL",
+    "Strand": "Humanities and Social Science (HUMSS) / ",
+    "FirstChoice": "BS Criminology (BSCRIM)",
+    "SecondChoice": "BS Criminology (BSCRIM)",
+    "VOCABULARY": 2,
+    "CORRECT USAGE": 6,
+    "PROBLEM SOLVING": 9,
+    "IDENTIFYING ERRORS": 3,
+    "READING COMPREHENSION": 8,
+    "LOGICAL ORGANIZATION": 4,
+    "NUMERICAL ABILITY": 11,
+    "TOTAL": 43
+  },
+  {
+    "Fullname": "CRYSTEL JANE ASMA ABAO",
+    "Duration": "1h 7m",
+    "Address": "MAGALLANES BRGY24 GINGOOG CITY",
+    "LastSchool": "BANABA WEST INTEGRATED SCHOOL",
+    "Strand": "Humanities and Social Science (HUMSS) / ",
+    "FirstChoice": "BS Information Technology (BSIT)",
+    "SecondChoice": "BS Criminology (BSCRIM)",
+    "VOCABULARY": 4,
+    "CORRECT USAGE": 3,
+    "PROBLEM SOLVING": 7,
+    "IDENTIFYING ERRORS": 2,
+    "READING COMPREHENSION": 5,
+    "LOGICAL ORGANIZATION": 2,
+    "NUMERICAL ABILITY": 13,
+    "TOTAL": 36
   }
 ]
