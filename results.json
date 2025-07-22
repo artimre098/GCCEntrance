@@ -9790,5 +9790,39 @@
     "LOGICAL ORGANIZATION": 3,
     "NUMERICAL ABILITY": 15,
     "TOTAL": 45
+  },
+  {
+    "Fullname": "lennie grace guillermo salingay",
+    "Duration": "0h 31m",
+    "Address": "purok 5 brgy 20 cabuyoan gingoog city",
+    "LastSchool": "2024 2025",
+    "Strand": "Technical-Vocational-Livelihood (TVL) / art and design",
+    "FirstChoice": "B Elementary Education (BEED)",
+    "SecondChoice": "B Elementary Education (BEED)",
+    "VOCABULARY": 3,
+    "CORRECT USAGE": 1,
+    "PROBLEM SOLVING": 5,
+    "IDENTIFYING ERRORS": 2,
+    "READING COMPREHENSION": 4,
+    "LOGICAL ORGANIZATION": 1,
+    "NUMERICAL ABILITY": 3,
+    "TOTAL": 19
+  },
+  {
+    "Fullname": "KimLloyd Larnio Calunsag",
+    "Duration": "0h 28m",
+    "Address": "Puting balas purok 1 TALISAYAN MISAMES ORIENTAL",
+    "LastSchool": "Talisayan misames oriental san jose national high school",
+    "Strand": "Science, Technology, Engineering, and Mathematics (STEM) / ",
+    "FirstChoice": "BS Information Technology (BSIT)",
+    "SecondChoice": "BS Business Administration (BSBA)",
+    "VOCABULARY": 3,
+    "CORRECT USAGE": 0,
+    "PROBLEM SOLVING": 5,
+    "IDENTIFYING ERRORS": 3,
+    "READING COMPREHENSION": 3,
+    "LOGICAL ORGANIZATION": 1,
+    "NUMERICAL ABILITY": 6,
+    "TOTAL": 21
   }
 ]
